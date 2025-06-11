@@ -29,6 +29,8 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "@sentry/core": "^9.27.0",
     "@types/crypto-js": "^4.2.2",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.5",
@@ -50,8 +52,6 @@
     "vite": "^6.0.7",
     "vite-plugin-dts": "^4.5.0",
     "webpack": "^5.97.1",
-    "webpack-cli": "^6.0.1",
-    "@sentry/core": "^9.27.0"
-  },
-  "dependencies": {}
+    "webpack-cli": "^6.0.1"
+  }
 }

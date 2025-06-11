@@ -1,28 +1,42 @@
-import {defineConfig} from 'vite'
+import { defineConfig } from 'vite'
 import path from 'path'
 import dtsPlugin from 'vite-plugin-dts'
+import terser from '@rollup/plugin-terser'
 
-// Конфигурация Vite для сборки библиотеки
 export default defineConfig({
   resolve: {
     extensions: ['.ts', '.js'],
   },
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src/index.ts'), // Основной файл библиотеки
-      name: 'client', // Имя глобальной переменной, если используете UMD или IIFE формат
-      fileName: 'client', // Название файлов в разных форматах
+      entry: path.resolve(__dirname, 'src/index.ts'),
+      name: 'client',
+      fileName: 'client',
     },
     target: 'esnext',
-    outDir: 'dist', // Папка для выходных файлов
-    emptyOutDir: true, // Очищаем папку dist перед сборкой
+    outDir: 'dist',
+    emptyOutDir: true,
+    minify: 'terser', // <-- Указываем terser как минификатор
+    rollupOptions: {
+      plugins: [
+        terser({
+          format: {
+            comments: false, // Убираем все комментарии
+          },
+          compress: {
+            drop_console: true, // Удалить console.*
+            drop_debugger: true,
+            passes: 3, // Несколько проходов минификации
+          },
+        }),
+      ],
+    },
   },
   plugins: [
     dtsPlugin({
-      // Плагин для генерации .d.ts файлов
-      include: ['src'], // Указываем, из какой директории нужно генерировать типы
-      exclude: ['node_modules'], // Исключаем папку node_modules
-      staticImport: true, // Для обработки статических импортов
+      include: ['src'],
+      exclude: ['node_modules'],
+      staticImport: true,
     }),
   ],
 })

@@ -1,6 +1,6 @@
 {
   "name": "sentry-lightweight-client",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./dist/client.mjs",
   "module": "./dist/client.mjs",
   "types": "./dist/client.d.ts",
@@ -53,6 +53,5 @@
     "webpack-cli": "^6.0.1",
     "@sentry/core": "^9.27.0"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

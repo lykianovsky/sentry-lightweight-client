@@ -53,5 +53,8 @@
     "vite-plugin-dts": "^4.5.0",
     "webpack": "^5.97.1",
     "webpack-cli": "^6.0.1"
+  },
+  "peerDependencies": {
+    "@sentry/core": "^9.27.0"
   }
 }

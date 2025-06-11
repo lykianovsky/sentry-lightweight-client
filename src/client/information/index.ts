@@ -6,6 +6,8 @@ type Pattern  = {
 }
 
 export class InformationBuilder {
+	private _isBrowser: boolean = typeof window !== 'undefined';
+
 	private _osPatterns: Pattern[] = [
 		{ name: 'Windows 10', regexp: /Windows NT 10\.0/ },
 		{ name: 'Windows 8.1', regexp: /Windows NT 6\.3/ },
@@ -40,9 +42,7 @@ export class InformationBuilder {
 	}
 
 	private _getContexts(): Contexts {
-		const isBrowser = typeof window !== 'undefined';
-
-		if (isBrowser) {
+		if (this._isBrowser) {
 			const os = this._parseUserAgent(navigator.userAgent, this._osPatterns)
 			const browser = this._parseUserAgent(navigator.userAgent, this._browserPatterns)
 			return {
@@ -96,13 +96,16 @@ export class InformationBuilder {
 			.join('');
 	}
 
-	public get(error: Error, level: SeverityLevel): Event {
+	public get(error: Error, options?: Event): Event {
 		return {
 			event_id: this._generateEventId(),
 			timestamp: Math.floor(Date.now() / 1000),
-			level,
 			platform: 'javascript',
+			level: 'error',
 			contexts: this._getContexts(),
+			request: {
+				url: this._isBrowser ? window.location.href : ''
+			},
 			exception: {
 				values: [{
 					type: error.name,
@@ -111,7 +114,8 @@ export class InformationBuilder {
 						frames: this._parseStack(error)
 					}
 				}]
-			}
+			},
+			...options
 		};
 	}
 }

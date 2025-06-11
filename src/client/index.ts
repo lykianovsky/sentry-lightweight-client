@@ -1,7 +1,7 @@
 import {HttpClient} from "./http";
 import {InformationBuilder} from "./information";
 import {Queue} from "./queue";
-import {SeverityLevel} from "@sentry/core";
+import {Event} from "@sentry/core";
 
 const DSN_PARSE_PATTERN = /^(https?:\/\/)([^@]+)@([^/]+)(\/\d+)/
 
@@ -42,9 +42,9 @@ export class Client {
 		};
 	}
 
-	public capture(value: string | Error, level: SeverityLevel) {
+	public capture(value: string | Error, options?: Event) {
 		const error = value instanceof Error ? value : new Error(value)
-		const data = this._informationBuilder.get(error, level)
+		const data = this._informationBuilder.get(error, options)
 
 		const request = () => {
 			return this._http.post(data)

@@ -3,7 +3,7 @@
   "version": "1.0.2",
   "main": "./dist/client.mjs",
   "module": "./dist/client.mjs",
-  "types": "./dist/client.d.ts",
+  "types": "./dist/client/index.d.ts",
   "scripts": {
     "dev": "nodemon --watch webpack.config.ts --exec \"webpack --config webpack.config.ts\"",
     "build": "vite build",
@@ -17,7 +17,7 @@
     ".": {
       "import": "./dist/client.mjs",
       "require": "./dist/client.mjs",
-      "types": "./dist/client.d.ts"
+      "types": "./dist/client/index.d.ts"
     }
   },
   "files": [

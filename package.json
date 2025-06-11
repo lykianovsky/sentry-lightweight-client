@@ -1,6 +1,6 @@
 {
   "name": "sentry-lightweight-client",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "./dist/client.mjs",
   "module": "./dist/client.mjs",
   "types": "./dist/client.d.ts",

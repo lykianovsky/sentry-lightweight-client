@@ -22,15 +22,5 @@ export class HttpClient {
 			throw response
 		}
 
-		// Симуляция 50% вероятности 429
-		const random = Math.random();
-
-		if (random < 0.5) {
-			console.warn('Simulating 429 Too Many Requests');
-			const error = new Error('Too Many Requests') as any;
-			error.status = 429;
-			throw error;
-		}
-
 		return response.json();
 	}}

@@ -73,9 +73,32 @@ export class InformationBuilder {
 	}
 
 	private _parseStack(error: Error): StackFrame[] | undefined {
-		return error.stack?.split('\n')
-			.filter(line => line.trim())
-			.map(line => ({ filename: line.trim() }))
+		const stack = error.stack;
+		if (!stack) {
+			return
+		}
+
+		const lines = stack.split('\n').filter(Boolean);
+		const frames: StackFrame[] = [];
+
+		const stackRegex = /at\s+(?:(.*?)\s+\()?((?:file|https?|blob|webpack|\/).*?):(\d+):(\d+)\)?/;
+
+		for (const line of lines) {
+			const match = line.match(stackRegex);
+			if (match) {
+				const [, funcName, filename, lineno, colno] = match;
+
+				frames.push({
+					filename,
+					function: funcName || '<anonymous>',
+					lineno: parseInt(lineno, 10),
+					colno: parseInt(colno, 10),
+				});
+			}
+		}
+
+		// Sentry ожидает стек в порядке от самой глубокой функции к верхней
+		return frames.reverse();
 	}
 
 	private _generateEventId() {
